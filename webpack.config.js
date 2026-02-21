@@ -23,6 +23,11 @@ module.exports = env => {
     module: {
       rules: [
         {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto"
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
@@ -39,13 +44,17 @@ module.exports = env => {
         }
       ]
     },
+    watchOptions: {
+      poll: true
+    },
     plugins: [
       new CleanWebpackPlugin([outputDirectory]),
       new NodemonPlugin({
         watch: ["./src", "./dist"],
         script: "./src/server/index.js",
         verbose: true,
-        ignore: ["*.js.map"]
+        ignore: ["*.js.map"],
+        legacyWatch: true
       })
     ]
   };
